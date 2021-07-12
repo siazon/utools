@@ -1,0 +1,16 @@
+{
+	"pluginName": "开发助手",
+	"description": "进制转换，编码转换",
+    "preload": "preload.js",
+	"main": "index.html",
+	"version": "0.0.1",
+	"logo": "logo.png",
+    "author": "陈夏松",
+	"features": [
+		{
+		  "code": "hello",
+		  "explain": "打开转换页面",
+			"cmds":["进制转换", "byte","hex"]
+		}
+	]
+}

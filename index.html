@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div>
+        <p></p>
+        <div>HexToNumber:</div>
+        <input id="txtHexToNumber" type="text">
+        <button onclick="HexToNumber()">转换</button>
+        <input id="txtHexToNumberRes" type="text">
+        <p></p>
+        <div>NumberToHex:</div>
+        <input id="txtNumberToHex" type="text">
+        <button onclick="NumberToHex()">转换</button>
+        <input id="txtNumberToHexRes" type="text">
+        <p></p>
+        <div>AsciiToString:</div>
+        <input id="txtAsiccToString" type="text">
+        <button onclick="AsiccToString()">转换</button>
+        <input id="txtAsiccToRes" type="text">
+        <p></p>
+        <div>StringToAscii:</div>
+        <input id="txtStringToAscii" type="text">
+        <button onclick="StringToAsicc()">转换</button>
+        <input id="txtStringToAsciiRes" type="text">
+        <p></p>
+        <div>HexToInt:</div>
+        <input id="txtHexToInt" type="text">
+        <button onclick="HexToInt()">高位在前</button>
+        <button onclick="HexToIntH()">高位在后</button>
+        <input id="txtHexToIntRes" type="text">
+        <p></p>
+        <div>IntToHex:</div>
+        <input id="txtIntToHex" type="text">
+        <button onclick="IntToHex()">高位在前</button>
+        <button onclick="IntToHexH()">高位在后</button>
+        <input id="txtIntToHexRes" type="text">
+    </div>
+    <script>
+
+        function HexToNumber() {
+            let str = document.getElementById("txtHexToNumber").value;
+            str = str.replace(/\s/g, "");
+            if (str == "") {
+                utools.showMessageBox({
+                    title: '提示',
+                    message: '请输入内容',
+                    defaultId: 1
+                })
+            }
+
+            let num;
+            let arr = [];
+            for (var i = 0; i < str.length; i = i + 2) {
+                num = parseInt(str.substr(i, 2), 16);
+                arr.push(num);
+            }
+            document.getElementById("txtHexToNumberRes").value = arr.join(' ');
+        }
+        function NumberToHex() {
+            let str = document.getElementById("txtNumberToHex").value;
+            if (Number.isFinite(str)) {
+                this.$message.error('数量超出');
+                return '';
+            }
+            let num = parseInt(str);
+            if (num > 255) {
+                utools.showMessageBox({
+                    title: '提示',
+                    message: '输入的值过大',
+                    defaultId: 2
+                })
+                return;
+            }
+            let hex = num.toString(16);
+
+            document.getElementById("txtNumberToHexRes").value = hex;
+        }
+
+        function AsiccToString() {
+            let str = document.getElementById("txtAsiccToString").value;
+            str = str.replace(/\s/g, "");
+            if (str == "") {
+                utools.showMessageBox({
+                    title: '提示',
+                    message: '请输入内容',
+                    defaultId: 1
+                })
+            }
+            if (str.length % 2 != 0) {
+                this.$message.error('必须为偶数');
+                return '';
+            }
+            let num;
+            let arr = [];
+            for (var i = 0; i < str.length; i = i + 2) {
+                num = parseInt(str.substr(i, 2), 16);
+                arr.push(String.fromCharCode(num));
+            }
+            document.getElementById("txtAsiccToRes").value = arr.join(' ');
+        }
+        function StringToAsicc() {
+            let str = document.getElementById("txtStringToAscii").value;
+            console.log(str)
+            str = str.replace(/\s/g, "");
+            if (str == "") {
+                utools.showMessageBox({
+                    title: '提示',
+                    message: '请输入内容',
+                    defaultId: 1
+                })
+            }
+            let arr = [];
+            for (var i = 0; i < str.length; i++) {
+                arr.push(str[i].charCodeAt());
+            }
+            document.getElementById("txtStringToAsciiRes").value = arr.join(' ');
+        }
+        function displayDate() {
+            document.getElementById("test").value = Date();
+        }
+        function HexToInt() {
+            let str = document.getElementById("txtHexToInt").value;
+            console.log(str)
+            str = str.replace(/\s/g, "");
+            if (str == "") {
+                utools.showMessageBox({
+                    title: '提示',
+                    message: '请输入内容',
+                    defaultId: 1
+                })
+            }
+            let num;
+            let arr = [];
+            for (var i = 0; i < str.length; i = i + 2) {
+                num = parseInt(str.substr(i, 2), 16);
+                arr.push(num >>> 0);
+            }
+            let length = arr.length;
+            for (var i = 0; i < 4 - length; i++) {
+                arr.push(0);
+            }
+            var b3 = arr[0] & 0xFF;
+            var b2 = arr[1] & 0xFF;
+            var b1 = arr[2] & 0xFF;
+            var b0 = arr[3] & 0xFF;
+            let res = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+            console.log(arr)
+            document.getElementById("txtHexToIntRes").value = res;
+        }
+        function HexToIntH() {
+            let str = document.getElementById("txtHexToInt").value;
+            console.log(str)
+            str = str.replace(/\s/g, "");
+            if (str == "") {
+                utools.showMessageBox({
+                    title: '提示',
+                    message: '请输入内容',
+                    defaultId: 1
+                })
+            }
+            let num;
+            let arr = [];
+            for (var i = 0; i < str.length; i = i + 2) {
+                num = parseInt(str.substr(i, 2), 16);
+                arr.push(num >>> 0);
+            }
+            let length = arr.length;
+            for (var i = 0; i < 4 - length; i++) {
+                arr.push(0);
+            }
+            var b3 = arr[3] & 0xFF;
+            var b2 = arr[2] & 0xFF;
+            var b1 = arr[1] & 0xFF;
+            var b0 = arr[0] & 0xFF;
+            let res = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+            console.log(arr)
+            document.getElementById("txtHexToIntRes").value = res;
+        }
+        function IntToHex() {
+            let str = document.getElementById("txtIntToHex").value;
+            let i = parseInt(str);
+            var targets = [];
+            targets[0] = (i & 0xFF).toString(16).padStart(2, '0');
+            targets[1] = (i >> 8 & 0xFF).toString(16).padStart(2, '0');
+            targets[2] = (i >> 16 & 0xFF).toString(16).padStart(2, '0');
+            targets[3] = (i >> 24 & 0xFF).toString(16).padStart(2, '0');
+            document.getElementById("txtIntToHexRes").value = targets.join(' ');
+        }
+        function IntToHexH() {
+            let str = document.getElementById("txtIntToHex").value;
+            if (str == "")
+                utools.showMessageBox({
+                    title: '提示',
+                    message: '请输入内容',
+                    defaultId: 1
+                })
+            let i = parseInt(str);
+            var targets = [];
+            targets[3] = (i & 0xFF).toString(16).padStart(2, '0');
+            targets[2] = (i >> 8 & 0xFF).toString(16).padStart(2, '0');
+            targets[1] = (i >> 16 & 0xFF).toString(16).padStart(2, '0');
+            targets[0] = (i >> 24 & 0xFF).toString(16).padStart(2, '0');
+            document.getElementById("txtIntToHexRes").value = targets.join(' ');
+        }
+    </script>
+</body>
+
+</html>
